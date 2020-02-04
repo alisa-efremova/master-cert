@@ -80,8 +80,7 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
       <Parameter name="SuspiciousAccountActivity">${acctInfo.suspiciousAccActivity}</Parameter>
       <Parameter name="RequestorChallengeInd">${threeDSRequestorChallengeInd}</Parameter>
       <Parameter name="USE_3D_SIMULATOR">FALSE</Parameter>
-      ${BROWSER_PARAMS}
-      ${APP_PARAMS}
+      ${PLATFORM_SPECIFIC_PARAMS}
     </Parameters>
   </Transaction>
 </Request>"""
@@ -106,7 +105,7 @@ class RequestAdapter(object):
         self.__data = data
 
     def adapt_request(self):
-        request = build_template(self, TEMPLATE)
+        request = self.build_template(self, TEMPLATE)
         print("Built request: " + request)
         return request
 
@@ -122,10 +121,11 @@ class RequestAdapter(object):
         try:
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
-            elif target == "APP_PARAMS" and is_mobile_transaction(self):
-                return build_template(self, APP_PARAMS_TEMPLATE)
-            elif target == "BROWSER_PARAMS" and is_browser_transaction(self):
-                return build_template(self, BROWSER_PARAMS_TEMPLATE)
+            elif target == "PLATFORM_SPECIFIC_PARAMS":
+                if self.is_mobile_transaction:
+                    return self.build_template(self, APP_PARAMS_TEMPLATE)
+                else:
+                    return self.build_template(self, BROWSER_PARAMS_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
@@ -146,9 +146,6 @@ class RequestAdapter(object):
 
     def is_mobile_transaction(self):
         return self.__data["deviceChannel"] == "01"
-
-    def is_browser_transaction(self):
-        return self.__data["deviceChannel"] == "02"
 
     def year(self, str):
         return "20" + str[:2]
