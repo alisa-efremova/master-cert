@@ -106,11 +106,11 @@ class RequestAdapter(object):
         self.__data = data
 
     def adapt_request(self):
-        request = adapt_request(self, TEMPLATE)
+        request = build_template(self, TEMPLATE)
         print("Built request: " + request)
         return request
 
-    def adapt_request(self, template):
+    def build_template(self, template):
         return re.sub("\\${([^}]*)}", self.resolve, template)
 
     def resolve(self, match):
@@ -122,10 +122,10 @@ class RequestAdapter(object):
         try:
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
-            elif target == "APP_PARAMS" and self.__data["deviceChannel"] == "01":
-                return adapt_request(self, APP_PARAMS_TEMPLATE)
-            elif target == "BROWSER_PARAMS" and self.__data["deviceChannel"] == "02":
-                return adapt_request(self, BROWSER_PARAMS_TEMPLATE)
+            elif target == "APP_PARAMS" and is_mobile_transaction(self):
+                return build_template(self, APP_PARAMS_TEMPLATE)
+            elif target == "BROWSER_PARAMS" and is_browser_transaction(self):
+                return build_template(self, BROWSER_PARAMS_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
@@ -143,6 +143,12 @@ class RequestAdapter(object):
         except Exception as e:
             print("[WARNING] Unable to substitute " + target + ", defaulting to " + self.__defaultValue)
             return self.__defaultValue
+
+    def is_mobile_transaction(self):
+        return self.__data["deviceChannel"] == "01"
+
+    def is_browser_transaction(self):
+        return self.__data["deviceChannel"] == "02"
 
     def year(self, str):
         return "20" + str[:2]
