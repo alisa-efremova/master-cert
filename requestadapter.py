@@ -122,7 +122,7 @@ class RequestAdapter(object):
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
             elif target == "PLATFORM_SPECIFIC_PARAMS":
-                if self.is_mobile_transaction:
+                if self.__data["deviceChannel"] == "01"
                     return self.build_template(APP_PARAMS_TEMPLATE)
                 else:
                     return self.build_template(BROWSER_PARAMS_TEMPLATE)
@@ -143,9 +143,6 @@ class RequestAdapter(object):
         except Exception as e:
             print("[WARNING] Unable to substitute " + target + ", defaulting to " + self.__defaultValue)
             return self.__defaultValue
-
-    def is_mobile_transaction(self):
-        return self.__data["deviceChannel"] == "01"
 
     def year(self, str):
         return "20" + str[:2]
