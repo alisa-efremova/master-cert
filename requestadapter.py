@@ -122,7 +122,7 @@ class RequestAdapter(object):
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
             elif target == "PLATFORM_SPECIFIC_PARAMS":
-                if self.__data["deviceChannel"] == "01"
+                if self.__data["deviceChannel"] == "01":
                     return self.build_template(APP_PARAMS_TEMPLATE)
                 else:
                     return self.build_template(BROWSER_PARAMS_TEMPLATE)
