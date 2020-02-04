@@ -89,11 +89,12 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
       <Parameter name="SuspiciousAccountActivity">${acctInfo.suspiciousAccActivity}</Parameter>
       <Parameter name="RequestorChallengeInd">${threeDSRequestorChallengeInd}</Parameter>
       <Parameter name="USE_3D_SIMULATOR">FALSE</Parameter>
-      <Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"${deviceRenderOptions[sdkInterface]}","sdkUiType":"31"}</Parameter>
+      ${MOBILE_PARAM}
     </Parameters>
   </Transaction>
 </Request>"""
 
+MOBILE_PARAM_TEMPLATE = """<Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>"""
 
 class RequestAdapter(object):
     __data = {}
@@ -116,6 +117,8 @@ class RequestAdapter(object):
         try:
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
+            elif: target == "MOBILE_PARAM"
+                return re.sub("\\${([^}]*)}", self.resolve, MOBILE_PARAM_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
