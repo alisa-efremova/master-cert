@@ -8,9 +8,6 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from requestadapter import RequestAdapter
 from responseadapter import ResponseAdapter
 
-if __name__ == "__main__":
-    rook.start(token='e2fe21957bb07aba7b222bd7ec9ef1ce2ba6b2c051e3d7120afaebdd2572d6fc')
-
 DOCS_OPPWA_URL = "https://docs.oppwa.com/api-request"
 
 
@@ -65,6 +62,8 @@ class HttpHandler(BaseHTTPRequestHandler):
         self.log_error(msg + ": %s", format(e))
         self.send_error(code, msg, format(e))
 
+if __name__ == "__main__":
+    rook.start(token='e2fe21957bb07aba7b222bd7ec9ef1ce2ba6b2c051e3d7120afaebdd2572d6fc')
 
 port = int(environ["PORT"])
 httpd = HTTPServer(("", port), HttpHandler)
