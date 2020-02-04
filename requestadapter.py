@@ -58,15 +58,6 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
       <Parameter name="OPP_shipping.postcode">${shipAddrPostCode}</Parameter>
       <Parameter name="OPP_shipping.state">${shipAddrState}</Parameter>
       <Parameter name="MODEL_customer.workPhone">${phone(workPhone)}</Parameter>
-      <Parameter name="MODEL_customer.browser.acceptHeader">${browserAcceptHeader}</Parameter>
-      <Parameter name="MODEL_customer.browser.language">${browserLanguage}</Parameter>
-      <Parameter name="MODEL_customer.browser.screenHeight">${browserScreenHeight}</Parameter>
-      <Parameter name="MODEL_customer.browser.screenWidth">${browserScreenWidth}</Parameter>
-      <Parameter name="MODEL_customer.browser.timezone">${browserTZ}</Parameter>
-      <Parameter name="MODEL_customer.browser.userAgent">${browserUserAgent}</Parameter>
-      <Parameter name="MODEL_customer.browser.ipAddress">${browserIP}</Parameter>
-      <Parameter name="MODEL_customer.browser.javaEnabled">${browserJavaEnabled}</Parameter>
-      <Parameter name="MODEL_customer.browser.screenColorDepth">${browserColorDepth}</Parameter>
       <Parameter name="ReqAuthMethod">${threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod}</Parameter>
       <Parameter name="ReqAuthTimestamp">${threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp}</Parameter>
       <Parameter name="AccountId">${acctID}</Parameter>
@@ -89,12 +80,24 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
       <Parameter name="SuspiciousAccountActivity">${acctInfo.suspiciousAccActivity}</Parameter>
       <Parameter name="RequestorChallengeInd">${threeDSRequestorChallengeInd}</Parameter>
       <Parameter name="USE_3D_SIMULATOR">FALSE</Parameter>
-      ${MOBILE_PARAM}
+      ${BROWSER_PARAMS}
+      ${APP_PARAMS}
     </Parameters>
   </Transaction>
 </Request>"""
 
-MOBILE_PARAM_TEMPLATE = """<Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>"""
+APP_PARAMS_TEMPLATE = """<Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>"""
+BROWSER_PARAMS_TEMPLATE = """
+      <Parameter name="MODEL_customer.browser.acceptHeader">${browserAcceptHeader}</Parameter>
+      <Parameter name="MODEL_customer.browser.language">${browserLanguage}</Parameter>
+      <Parameter name="MODEL_customer.browser.screenHeight">${browserScreenHeight}</Parameter>
+      <Parameter name="MODEL_customer.browser.screenWidth">${browserScreenWidth}</Parameter>
+      <Parameter name="MODEL_customer.browser.timezone">${browserTZ}</Parameter>
+      <Parameter name="MODEL_customer.browser.userAgent">${browserUserAgent}</Parameter>
+      <Parameter name="MODEL_customer.browser.ipAddress">${browserIP}</Parameter>
+      <Parameter name="MODEL_customer.browser.javaEnabled">${browserJavaEnabled}</Parameter>
+      <Parameter name="MODEL_customer.browser.screenColorDepth">${browserColorDepth}</Parameter>
+"""
 
 class RequestAdapter(object):
     __data = {}
@@ -117,8 +120,10 @@ class RequestAdapter(object):
         try:
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
-            elif target == "MOBILE_PARAM" and self.__data["deviceChannel"] == "01":
-                return re.sub("\\${([^}]*)}", self.resolve, MOBILE_PARAM_TEMPLATE)
+            elif target == "APP_PARAMS" and self.__data["deviceChannel"] == "01":
+                return re.sub("\\${([^}]*)}", self.resolve, APP_PARAMS_TEMPLATE)
+            elif target == "BROWSER_PARAMS" and self.__data["deviceChannel"] == "02":
+                return re.sub("\\${([^}]*)}", self.resolve, BROWSER_PARAMS_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
