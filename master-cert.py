@@ -1,5 +1,6 @@
 
 import json
+import rook
 from os import environ
 from requests import post
 from http import HTTPStatus
@@ -7,10 +8,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from requestadapter import RequestAdapter
 from responseadapter import ResponseAdapter
 
-# import rook
-
-# if __name__ == "__main__":
-#     rook.start(token='e2fe21957bb07aba7b222bd7ec9ef1ce2ba6b2c051e3d7120afaebdd2572d6fc')
+if __name__ == "__main__":
+    rook.start(token='e2fe21957bb07aba7b222bd7ec9ef1ce2ba6b2c051e3d7120afaebdd2572d6fc')
 
 DOCS_OPPWA_URL = "https://docs.oppwa.com/api-request"
 
