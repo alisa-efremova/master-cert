@@ -89,7 +89,7 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
       <Parameter name="SuspiciousAccountActivity">${acctInfo.suspiciousAccActivity}</Parameter>
       <Parameter name="RequestorChallengeInd">${threeDSRequestorChallengeInd}</Parameter>
       <Parameter name="USE_3D_SIMULATOR">FALSE</Parameter>
-      <Parameter namw="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"01","sdkTransID":"24c762c5-49a8-4da6-bd5e-dc2da0887f77","sdkAppID":"d4d709e6-9c7f-4482-8af6-dfcaeacc8172","sdkReferenceNumber":"3DS_LOA_SDK_PPFU_020100_00007","sdkEphemPubKey":"{\"kty\":\"EC\",\"crv\":\"P-256\",\"x\":\"9hYl1HeWakEOYtmkaUpWPrUcgjzgFuHZzXemDdZCkI0\",\"y\":\"GU4aRLbRanHAvHaMkvVOYuyFtK1ss54h21g3Paujo2E\"}","sdkEncData":"eyJhbGciOiJSU0EtT0FFUC0yNT","sdkMaxTimeout":"05","sdkInterface":"03","sdkUiType":"31"}</Parameter>
+      <Parameter namw="OPP_threeDSecure.deviceInfo">{\"messageType\":\"AuthRequest\",\"messageVersion\":\"${messageVersion}\",\"deviceChannel\":\"01\",\"sdkTransID\":\"24c762c5-49a8-4da6-bd5e-dc2da0887f77\",\"sdkAppID\":\"d4d709e6-9c7f-4482-8af6-dfcaeacc8172\",\"sdkReferenceNumber\":\"3DS_LOA_SDK_PPFU_020100_00007\",\"sdkEphemPubKey\":\"{\\"kty\\":\\"EC\\",\\"crv\\":\\"P-256\\",\\"x\\":\\"9hYl1HeWakEOYtmkaUpWPrUcgjzgFuHZzXemDdZCkI0\\",\\"y\\":\\"GU4aRLbRanHAvHaMkvVOYuyFtK1ss54h21g3Paujo2E\\"}\",\"sdkEncData\":\"eyJhbGciOiJSU0EtT0FFUC0yNT\",\"sdkMaxTimeout\":\"05\",\"sdkInterface\":\"03\",\"sdkUiType\":\"31\"}</Parameter>
     </Parameters>
   </Transaction>
 </Request>"""
