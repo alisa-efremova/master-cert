@@ -105,7 +105,7 @@ class RequestAdapter(object):
         self.__data = data
 
     def adapt_request(self):
-        request = self.build_template(self, TEMPLATE)
+        request = self.build_template(TEMPLATE)
         print("Built request: " + request)
         return request
 
@@ -123,9 +123,9 @@ class RequestAdapter(object):
                 return str(uuid.uuid4()).replace("-", "")
             elif target == "PLATFORM_SPECIFIC_PARAMS":
                 if self.is_mobile_transaction:
-                    return self.build_template(self, APP_PARAMS_TEMPLATE)
+                    return self.build_template(APP_PARAMS_TEMPLATE)
                 else:
-                    return self.build_template(self, BROWSER_PARAMS_TEMPLATE)
+                    return self.build_template(BROWSER_PARAMS_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
