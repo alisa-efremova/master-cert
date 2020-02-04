@@ -117,7 +117,7 @@ class RequestAdapter(object):
         try:
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
-            elif target == "MOBILE_PARAM" and hasattr(self, "sdkReferenceNumber"):
+            elif target == "MOBILE_PARAM" and self.__data["deviceChannel"] == "01":
                 return re.sub("\\${([^}]*)}", self.resolve, MOBILE_PARAM_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
