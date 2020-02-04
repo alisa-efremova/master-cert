@@ -89,7 +89,7 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
       <Parameter name="SuspiciousAccountActivity">${acctInfo.suspiciousAccActivity}</Parameter>
       <Parameter name="RequestorChallengeInd">${threeDSRequestorChallengeInd}</Parameter>
       <Parameter name="USE_3D_SIMULATOR">FALSE</Parameter>
-      <Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"{\\\"kty\\\":\\\"EC\\\",\\\"crv\\\":\\\"P-256\\\",\\\"x\\\":\\\"9hYl1HeWakEOYtmkaUpWPrUcgjzgFuHZzXemDdZCkI0\\\",\\\"y\\\":\\\"GU4aRLbRanHAvHaMkvVOYuyFtK1ss54h21g3Paujo2E\\\"}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>
+      <Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>
     </Parameters>
   </Transaction>
 </Request>"""
