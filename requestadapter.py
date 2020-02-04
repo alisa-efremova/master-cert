@@ -87,8 +87,8 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 </Request>"""
 
 APP_PARAMS_TEMPLATE = """<Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>"""
-BROWSER_PARAMS_TEMPLATE = """
-      <Parameter name="MODEL_customer.browser.acceptHeader">${browserAcceptHeader}</Parameter>
+
+BROWSER_PARAMS_TEMPLATE = """<Parameter name="MODEL_customer.browser.acceptHeader">${browserAcceptHeader}</Parameter>
       <Parameter name="MODEL_customer.browser.language">${browserLanguage}</Parameter>
       <Parameter name="MODEL_customer.browser.screenHeight">${browserScreenHeight}</Parameter>
       <Parameter name="MODEL_customer.browser.screenWidth">${browserScreenWidth}</Parameter>
@@ -96,8 +96,7 @@ BROWSER_PARAMS_TEMPLATE = """
       <Parameter name="MODEL_customer.browser.userAgent">${browserUserAgent}</Parameter>
       <Parameter name="MODEL_customer.browser.ipAddress">${browserIP}</Parameter>
       <Parameter name="MODEL_customer.browser.javaEnabled">${browserJavaEnabled}</Parameter>
-      <Parameter name="MODEL_customer.browser.screenColorDepth">${browserColorDepth}</Parameter>
-"""
+      <Parameter name="MODEL_customer.browser.screenColorDepth">${browserColorDepth}</Parameter>"""
 
 class RequestAdapter(object):
     __data = {}
@@ -107,9 +106,12 @@ class RequestAdapter(object):
         self.__data = data
 
     def adapt_request(self):
-        request = re.sub("\\${([^}]*)}", self.resolve, TEMPLATE)
+        request = adapt_request(self, TEMPLATE)
         print("Built request: " + request)
         return request
+
+    def adapt_request(self, template):
+        return re.sub("\\${([^}]*)}", self.resolve, template)
 
     def resolve(self, match):
         if len(match.groups()) == 0:
@@ -121,9 +123,9 @@ class RequestAdapter(object):
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
             elif target == "APP_PARAMS" and self.__data["deviceChannel"] == "01":
-                return re.sub("\\${([^}]*)}", self.resolve, APP_PARAMS_TEMPLATE)
+                return adapt_request(self, APP_PARAMS_TEMPLATE)
             elif target == "BROWSER_PARAMS" and self.__data["deviceChannel"] == "02":
-                return re.sub("\\${([^}]*)}", self.resolve, BROWSER_PARAMS_TEMPLATE)
+                return adapt_request(self, BROWSER_PARAMS_TEMPLATE)
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
