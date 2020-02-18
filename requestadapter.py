@@ -120,7 +120,6 @@ class RequestAdapter(object):
 
     def resolve_arg(self, target):
         try:
-            print("TARGET: " + target)
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
             elif target == "PLATFORM_SPECIFIC_PARAMS":
@@ -129,7 +128,6 @@ class RequestAdapter(object):
                 else:
                     return self.build_template(BROWSER_PARAMS_TEMPLATE)
             elif target == "SDK_EPHEM_KEY":
-                print("JSON: " + self.__data["sdkEphemPubKey"])
                 print("to string" + json.dumps(self.__data["sdkEphemPubKey"]))
                 return json.dumps(self.__data["sdkEphemPubKey"]).replace("'", '\"')
             else:
@@ -148,6 +146,7 @@ class RequestAdapter(object):
                     return parent
         except Exception as e:
             print("[WARNING] Unable to substitute " + target + ", defaulting to " + self.__defaultValue)
+            print(e)
             return self.__defaultValue
 
     def year(self, str):
