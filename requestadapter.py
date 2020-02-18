@@ -85,7 +85,7 @@ TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
   </Transaction>
 </Request>"""
 
-APP_PARAMS_TEMPLATE = """<Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":"${sdkEphemPubKey}","sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>"""
+APP_PARAMS_TEMPLATE = """<Parameter name="OPP_threeDSecure.deviceInfo">{"messageType":"AuthRequest","messageVersion":"${messageVersion}","deviceChannel":"${deviceChannel}","sdkTransID":"${sdkTransID}","sdkAppID":"${sdkAppID}","sdkReferenceNumber":"${sdkReferenceNumber}","sdkEphemPubKey":{\\\"kty\\\": \\\"EC\\\", \\\"crv\\\": \\\"P-256\\\", \\\"x\\\": \\\"7L3k5UmR6GoqWoUcEUsZ3zQkRqcSTF4JpF2uaFTbr3Q\\\", \\\"y\\\": \\\"fOg7r0NSJDjbYRffG1v0Gv5u0oHcfaejirxrM3Cj0bw\\\"},"sdkEncData":"${sdkEncData}","sdkMaxTimeout":"${sdkMaxTimeout}","sdkInterface":"03","sdkUiType":"31"}</Parameter>"""
 
 BROWSER_PARAMS_TEMPLATE = """<Parameter name="MODEL_customer.browser.acceptHeader">${browserAcceptHeader}</Parameter>
       <Parameter name="MODEL_customer.browser.language">${browserLanguage}</Parameter>
