@@ -128,8 +128,7 @@ class RequestAdapter(object):
                 else:
                     return self.build_template(BROWSER_PARAMS_TEMPLATE)
             elif target == "SDK_EPHEM_KEY":
-                print("to string" + json.dumps(self.__data["sdkEphemPubKey"]))
-                return json.dumps(self.__data["sdkEphemPubKey"]).replace("'", '\"')
+                return json.dumps(self.__data["sdkEphemPubKey"])
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
