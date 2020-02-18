@@ -120,6 +120,7 @@ class RequestAdapter(object):
 
     def resolve_arg(self, target):
         try:
+            print("TARGET: " + target)
             if target == "UUID":
                 return str(uuid.uuid4()).replace("-", "")
             elif target == "PLATFORM_SPECIFIC_PARAMS":
