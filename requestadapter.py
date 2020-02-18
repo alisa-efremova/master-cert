@@ -1,3 +1,4 @@
+import json
 import re
 import uuid
 from iso3166 import countries
@@ -127,7 +128,9 @@ class RequestAdapter(object):
                 else:
                     return self.build_template(BROWSER_PARAMS_TEMPLATE)
             elif target == "SDK_EPHEM_KEY":
-                return self.__data["sdkEphemPubKey"].replace("'", '\"')
+                print("JSON: " + self.__data["sdkEphemPubKey"])
+                print("to string" + json.dumps(self.__data["sdkEphemPubKey"]))
+                return json.dumps(self.__data["sdkEphemPubKey"]).replace("'", '\"')
             else:
                 match = re.fullmatch("([a-z0-9]+)\\(([^}]*)\\)", target)
                 if match is not None:
